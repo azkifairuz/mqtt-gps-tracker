@@ -28,7 +28,7 @@ func InitMqtt(){
 	
 	subscribeToTopic("device/power-status", getDevicePowerStatus)
 	subscribeToTopic("device/position", getDeviceLocation)
-	subscribeToTopic("device/status", getDeviceLocation)
+	subscribeToTopic("device/status", getDeviceStatus)
 	// subscribeToTopic("rfid-system/read", ReadCardFromMQTT)
 }
 
@@ -101,9 +101,9 @@ func getDeviceStatus(client mqtt.Client, msg mqtt.Message) {
 		return
 	}
 
-	log.Printf("Received status from device %s: %.2f", body.DeviceId, body.Long)
+	log.Printf("Received status from device %s: %s: %s", body.DeviceId, body.Volt,body.Kwh)
 
-	response := map[string]interface{}{
+	response := map[string]string{
 		"message": "status received",
 		"device":  body.DeviceId,
 		"kwh":     body.Kwh,
