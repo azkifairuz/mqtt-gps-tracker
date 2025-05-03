@@ -62,7 +62,7 @@ func getDevicePowerStatus(client mqtt.Client, msg mqtt.Message) {
 		"status": body.Status,
 	}
 	respJSON, _ := json.Marshal(response)
-	client.Publish("device/power-status", 0, false, respJSON)
+	client.Publish("device/power-status/ack", 0, false, respJSON)
 }
 
 func getDeviceLocation(client mqtt.Client, msg mqtt.Message) {
@@ -86,7 +86,7 @@ func getDeviceLocation(client mqtt.Client, msg mqtt.Message) {
 		"long":    body.Long,
 	}
 	respJSON, _ := json.Marshal(response)
-	client.Publish("device/position", 0, false, respJSON)
+	client.Publish("device/position/ack", 0, false, respJSON)
 }
 
 func getDeviceStatus(client mqtt.Client, msg mqtt.Message) {
@@ -110,5 +110,5 @@ func getDeviceStatus(client mqtt.Client, msg mqtt.Message) {
 		"volt":    body.Volt,
 	}
 	respJSON, _ := json.Marshal(response)
-	client.Publish("device/status", 0, false, respJSON)
+	client.Publish("device/status/ack", 0, false, respJSON)
 }
