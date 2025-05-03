@@ -28,6 +28,7 @@ func InitMqtt(){
 	
 	subscribeToTopic("device/power-status", getDevicePowerStatus)
 	subscribeToTopic("device/position", getDeviceLocation)
+	subscribeToTopic("device/status", getDeviceLocation)
 	// subscribeToTopic("rfid-system/read", ReadCardFromMQTT)
 }
 
@@ -86,4 +87,28 @@ func getDeviceLocation(client mqtt.Client, msg mqtt.Message) {
 	}
 	respJSON, _ := json.Marshal(response)
 	client.Publish("device/position", 0, false, respJSON)
+}
+
+func getDeviceStatus(client mqtt.Client, msg mqtt.Message) {
+	var body struct {
+		DeviceId string `json:"deviceId"`
+	 	Kwh      string `json:"kwh"`  
+		Volt     string `json:"volt"`
+	}
+
+	if err := helper.ParseJSON(msg.Payload(), &body); err != nil {
+		log.Println("Failed to parse register card message:", err)
+		return
+	}
+
+	log.Printf("Received status from device %s: %.2f", body.DeviceId, body.Long)
+
+	response := map[string]interface{}{
+		"message": "status received",
+		"device":  body.DeviceId,
+		"kwh":     body.Kwh,
+		"volt":    body.Volt,
+	}
+	respJSON, _ := json.Marshal(response)
+	client.Publish("device/status", 0, false, respJSON)
 }
