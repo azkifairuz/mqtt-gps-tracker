@@ -23,18 +23,6 @@ Endpoint untuk memastikan bahwa API aktif.
 {
   "message": "pong"
 }
-
-### 1. `GET /ping`
-
-**Deskripsi:**  
-Endpoint untuk memastikan bahwa API aktif.
-
-**Response:**
-
-```json
-{
-  "message": "pong"
-}
 ```
 ### 2. `POST /device/power-status`
 
